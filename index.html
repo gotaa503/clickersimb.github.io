@@ -80,16 +80,16 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        var counter = parseInt(localStorage.getItem('clicks') || '0');
         document.getElementById('counterValue').textContent = counter;
-        document.querySelector('.update-message').style.display = 'none;
+        document.querySelector('.update-message').style.display = 'none';
     });
 
-    let counter = parseInt(localStorage.getItem('clicks') || '0');
-
     function incrementCounter() {
+        var counter = parseInt(localStorage.getItem('clicks') || '0');
         counter++;
         localStorage.setItem('clicks', counter);
-        document.getElementById('counterValue').innerHTML = counter;
+        document.getElementById('counterValue').textContent = counter;
     }
 </script>
 
