@@ -11,10 +11,10 @@
         }
 
         .container {
-            display: flex; / *  Используем Flexbox для контейнера  * /
-            justify-content: center; / *  Центрируем содержимое по горизонтали  * /
-            align-items: center; / *  Центрируем содержимое по вертикали  * /
-            min-height: 100vh; / *  Устанавливаем минимальную высоту контейнера равной высоте видимой части окна  * /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .clicker {
@@ -46,12 +46,19 @@
 <div class="counter">Количество кликов: <span id="counterValue"></span></div>
 
 <script>
-    let counter = 0;
+    // Получаем количество кликов из localStorage или устанавливаем его в 0, если оно отсутствует
+    let counter = parseInt(localStorage.getItem('clicks') || '0');
 
     function incrementCounter() {
         counter++;
+        localStorage.setItem('clicks', counter); // Сохраняем количество кликов в localStorage
         document.getElementById('counterValue').innerHTML = counter;
     }
+
+    // При загрузке страницы обновляем счетчик кликов
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('counterValue').textContent = counter;
+    });
 </script>
 
 </body>
