@@ -22,11 +22,8 @@
         .clicker {
             width: 100px;
             height: 100px;
-            background-color: #000;
-            color: #fff;
-            font-size: 24px;
-            line-height: 100px;
-            text-align: center;
+            background: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg') no-repeat center;
+            background-size: cover;
             cursor: pointer;
         }
 
@@ -45,6 +42,7 @@
             color: white;
             text-align: center;
             padding: 10px;
+            display: none; /* Initially hiding the update message */
         }
     </style>
 </head>
@@ -53,7 +51,7 @@
 <div class="counter">Количество кликов: <span id="counterValue"></span></div>
 
 <div class="container">
-    <div class="clicker" onclick="incrementCounter()">Кликни меня!</div>
+    <div class="clicker" onclick="incrementCounter()"></div>
 </div>
 
 <!-- Добавляем кнопку для вызова оповещения -->
@@ -66,41 +64,34 @@
 </div>
 
 <script>
-    // Функция для уменьшения счётчика и перезагрузки страницы
     function countDown() {
         var countdownElement = document.getElementById('countdown');
         if (parseInt(countdownElement.textContent) > 0) {
             countdownElement.textContent = parseInt(countdownElement.textContent) - 1;
-            setTimeout(countDown, 1000); // Уменьшаем счётчик каждую секунду
+            setTimeout(countDown, 1000);
         } else {
-            location.reload(); // Перезагружаем страницу, когда счётчик достигает нуля
+            location.reload();
         }
     }
 
-    // Запускаем таймер при нажатии на кнопку
     function showUpdateMessage() {
         document.querySelector('.update-message').style.display = 'block';
         countDown();
     }
 
-    // При загрузке страницы убираем сообщение об обновлении сайта
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('counterValue').textContent = counter;
-        document.querySelector('.update-message').remove();
+        document.querySelector('.update-message').style.display = 'none;
     });
 
-    // Получаем количество кликов из localStorage или устанавливаем его в 0, если оно отсутствует
     let counter = parseInt(localStorage.getItem('clicks') || '0');
 
     function incrementCounter() {
         counter++;
-        localStorage.setItem('clicks', counter); // Сохраняем количество кликов в localStorage
+        localStorage.setItem('clicks', counter);
         document.getElementById('counterValue').innerHTML = counter;
     }
 </script>
 
 </body>
 </html>
-
-Бот сделан Денисом 
-Если найдены ошибки, пишите боту
