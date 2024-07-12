@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кликер</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .clicker {
+            width: 100px;
+            height: 100px;
+            background-color: #000;
+            color: #fff;
+            font-size: 24px;
+            line-height: 100px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .counter {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="clicker" onclick="incrementCounter()">Кликни меня!</div>
+
+<div class="counter">Количество кликов: <span id="counterValue"></span></div>
+
+<script>
+    let counter = 0;
+
+    function incrementCounter() {
+        counter++;
+        document.getElementById('counterValue').innerHTML = counter;
+    }
+</script>
+
+</body>
+</html>
