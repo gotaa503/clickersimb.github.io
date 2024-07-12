@@ -33,63 +33,25 @@
             color: white;
         }
 
-        .update-message {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: red;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            display: none; /* Initially hiding the update message */
-        }
     </style>
 </head>
 <body>
 
-<div class="counter">Количество кликов: <span id="counterValue"></span></div>
+<div class="counter">Количество кликов: <span id="counterValue">0</span></div>
 
 <div class="container">
     <div class="clicker" onclick="incrementCounter()"></div>
 </div>
 
-<!-- Добавляем кнопку для вызова оповещения -->
-<button onclick="showUpdateMessage()">Проверить обновление</button>
-
-<!-- Оповещение об обновлении -->
-<div class="update-message">
-    <h1>ПЕРЕЗАГРУЗИТЕ САЙТ!!</h1>
-    <p>ЛИБО СРАБОТАЕТ АВТОМАТИЧЕСКАЯ ПЕРЕЗАГРУЗКА САЙТА ЧЕРЕЗ <span id="countdown">10</span> секунд.</p>
-</div>
-
 <script>
-    function countDown() {
-        var countdownElement = document.getElementById('countdown');
-        if (parseInt(countdownElement.textContent) > 0) {
-            countdownElement.textContent = parseInt(countdownElement.textContent) - 1;
-            setTimeout(countDown, 1000);
-        } else {
-            location.reload();
-        }
-    }
-
-    function showUpdateMessage() {
-        document.querySelector('.update-message').style.display = 'block';
-        countDown();
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        var counter = parseInt(localStorage.getItem('clicks') || '0');
-        document.getElementById('counterValue').textContent = counter;
-        document.querySelector('.update-message').style.display = 'none';
-    });
+    var counterValue = document.getElementById('counterValue');
+    var currentValue = localStorage.getItem('clickCount') || 0;
+    counterValue.textContent = currentValue;
 
     function incrementCounter() {
-        var counter = parseInt(localStorage.getItem('clicks') || '0');
-        counter++;
-        localStorage.setItem('clicks', counter);
-        document.getElementById('counterValue').textContent = counter;
+        currentValue++;
+        counterValue.textContent = currentValue;
+        localStorage.setItem('clickCount', currentValue);
     }
 </script>
 
