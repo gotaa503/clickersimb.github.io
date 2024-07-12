@@ -31,10 +31,7 @@
         }
 
         .counter {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            text-align: center;
             padding: 10px;
             color: white;
         }
@@ -53,11 +50,11 @@
 </head>
 <body>
 
+<div class="counter">Количество кликов: <span id="counterValue"></span></div>
+
 <div class="container">
     <div class="clicker" onclick="incrementCounter()">Кликни меня!</div>
 </div>
-
-<div class="counter">Количество кликов: <span id="counterValue"></span></div>
 
 <!-- Добавляем кнопку для вызова оповещения -->
 <button onclick="showUpdateMessage()">Проверить обновление</button>
@@ -104,5 +101,3 @@
 
 </body>
 </html>
-
-тест
