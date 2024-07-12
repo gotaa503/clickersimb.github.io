@@ -35,6 +35,17 @@
             transform: translateX(-50%);
             padding: 10px;
         }
+
+        .update-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: red;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -45,7 +56,29 @@
 
 <div class="counter">Количество кликов: <span id="counterValue"></span></div>
 
+<!-- Добавляем элемент для отображения сообщения и счётчика -->
+<div class="update-message">
+    <h1>ПЕРЕЗАГРУЗИТЕ САЙТ!!</h1>
+    <p>ЛИБО СРАБОТАЕТ АВТОМАТИЧЕСКАЯ ПЕРЕЗАГРУЗКА САЙТА ЧЕРЕЗ <span id="countdown">10</span> секунд.</p>
+</div>
+
 <script>
+    // Функция для уменьшения счётчика и перезагрузки страницы
+    function countDown() {
+        var countdownElement = document.getElementById('countdown');
+        if (parseInt(countdownElement.textContent) > 0) {
+            countdownElement.textContent = parseInt(countdownElement.textContent) - 1;
+            setTimeout(countDown, 1000); // Уменьшаем счётчик каждую секунду
+        } else {
+            location.reload(); // Перезагружаем страницу, когда счётчик достигает нуля
+        }
+    }
+
+    // Запускаем таймер при загрузке страницы
+    window.onload = function() {
+        countDown();
+    };
+
     // Получаем количество кликов из localStorage или устанавливаем его в 0, если оно отсутствует
     let counter = parseInt(localStorage.getItem('clicks') || '0');
 
@@ -58,6 +91,8 @@
     // При загрузке страницы обновляем счетчик кликов
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('counterValue').textContent = counter;
+        // Убираем сообщение об обновлении сайта, если оно было показано ранее
+        document.querySelector('.update-message').remove();
     });
 </script>
 
