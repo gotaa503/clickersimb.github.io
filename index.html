@@ -10,13 +10,11 @@
             padding: 0;
         }
 
-        @media screen and (max-width: 768px) { / *  Максимальная ширина экрана для мобильных устройств  * /
-            .clicker {
-                position: relative; / *  Используем относительное позиционирование для мобильных устройств  * /
-                top: 50%; / *  Центрируем по вертикали  * /
-                left: 50%; / *  Центрируем по горизонтали  * /
-                transform: translate(-50%, -50%); / *  Перемещаем на половину ширины и высоты  * /
-            }
+        .container {
+            display: flex; / *  Используем Flexbox для контейнера  * /
+            justify-content: center; / *  Центрируем содержимое по горизонтали  * /
+            align-items: center; / *  Центрируем содержимое по вертикали  * /
+            min-height: 100vh; / *  Устанавливаем минимальную высоту контейнера равной высоте видимой части окна  * /
         }
 
         .clicker {
@@ -28,10 +26,6 @@
             line-height: 100px;
             text-align: center;
             cursor: pointer;
-            position: absolute; / *  Используем абсолютное позиционирование для больших экранов  * /
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
         }
 
         .counter {
@@ -45,7 +39,9 @@
 </head>
 <body>
 
-<div class="clicker" onclick="incrementCounter()">Кликни меня!</div>
+<div class="container">
+    <div class="clicker" onclick="incrementCounter()">Кликни меня!</div>
+</div>
 
 <div class="counter">Количество кликов: <span id="counterValue"></span></div>
 
