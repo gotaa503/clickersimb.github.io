@@ -56,7 +56,10 @@
 
 <div class="counter">Количество кликов: <span id="counterValue"></span></div>
 
-<!-- Добавляем элемент для отображения сообщения и счётчика -->
+<!-- Добавляем кнопку для вызова оповещения -->
+<button onclick="showUpdateMessage()">Проверить обновление</button>
+
+<!-- Оповещение об обновлении -->
 <div class="update-message">
     <h1>ПЕРЕЗАГРУЗИТЕ САЙТ!!</h1>
     <p>ЛИБО СРАБОТАЕТ АВТОМАТИЧЕСКАЯ ПЕРЕЗАГРУЗКА САЙТА ЧЕРЕЗ <span id="countdown">10</span> секунд.</p>
@@ -74,10 +77,17 @@
         }
     }
 
-    // Запускаем таймер при загрузке страницы
-    window.onload = function() {
+    // Запускаем таймер при нажатии на кнопку
+    function showUpdateMessage() {
+        document.querySelector('.update-message').style.display = 'block';
         countDown();
-    };
+    }
+
+    // При загрузке страницы убираем сообщение об обновлении сайта
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('counterValue').textContent = counter;
+        document.querySelector('.update-message').remove();
+    });
 
     // Получаем количество кликов из localStorage или устанавливаем его в 0, если оно отсутствует
     let counter = parseInt(localStorage.getItem('clicks') || '0');
@@ -87,15 +97,7 @@
         localStorage.setItem('clicks', counter); // Сохраняем количество кликов в localStorage
         document.getElementById('counterValue').innerHTML = counter;
     }
-
-    // При загрузке страницы обновляем счетчик кликов
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('counterValue').textContent = counter;
-        // Убираем сообщение об обновлении сайта, если оно было показано ранее
-        document.querySelector('.update-message').remove();
-    });
 </script>
 
 </body>
 </html>
-ez rovux
