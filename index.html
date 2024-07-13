@@ -77,7 +77,7 @@
 
     <div class="container">
         <div class="clicker" onclick="incrementCounter()" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg')">Клик</div>
-        <div class="autoclicker" onclick="toggleAutoClicker()">Автокликер</div>
+        <div class="autoclicker" id="autoclicker-button" onclick="toggleAutoClicker()">Автокликер</div>
         <div class="clicker" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg'); display: none;"></div>
     </div>
 
@@ -90,9 +90,15 @@
         var counterElement = document.getElementById('counter');
         var alertElement = document.getElementById('alert');
         var autoClickerStatusElement = document.getElementById('autoclicker-status');
+        var autoClickerButton = document.getElementById('autoclicker-button');
         var autoClickerInterval;
+        var autoClickerEnabled = localStorage.getItem('autoClickerEnabled') === 'true';
 
         counterElement.textContent = 'Кликов: ' + counterValue;
+
+        if (autoClickerEnabled) {
+            startAutoClicker();
+        }
 
         function incrementCounter() {
             counterValue++;
@@ -118,12 +124,16 @@
         function startAutoClicker() {
             autoClickerInterval = setInterval(incrementCounter, 1000); // Кликает каждую секунду
             autoClickerStatusElement.textContent = 'Автокликер: Включен';
+            autoClickerButton.style.background = 'green';
+            localStorage.setItem('autoClickerEnabled', 'true');
         }
 
         function stopAutoClicker() {
             clearInterval(autoClickerInterval);
             autoClickerInterval = null;
             autoClickerStatusElement.textContent = 'Автокликер: Отключен';
+            autoClickerButton.style.background = 'red';
+            localStorage.setItem('autoClickerEnabled', 'false');
         }
 
         function placeButton() {
