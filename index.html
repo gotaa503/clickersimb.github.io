@@ -44,14 +44,6 @@
             position: relative;
         }
 
-        .settings {
-            margin-top: 20px;
-            padding: 5px;
-            background: #2980b9;
-            color: white;
-            cursor: pointer;
-        }
-
         .modal {
             display: none;
             position: fixed;
@@ -91,11 +83,10 @@
         <button onclick="applySettings()">Применить</button>
     </div>
 
-    <div class="container" onclick="placeButton()">
+    <div class="container">
         <div class="clicker" onclick="incrementCounter()" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg')">Клик</div>
         <div class="autoclicker" onclick="setInstallButton()">Автокликер</div>
         <div class="clicker" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg'); display: none;"></div>
-        <div class="settings" onclick="openSettings()">Настройки управления</div>
     </div>
 
     <div class="clicker" id="counter" style="background-image: none; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: white;">Кликов: 0</div>
@@ -141,8 +132,7 @@
             var posX = event.clientX - 50 + 'px';
             var posY = event.clientY - 50 + 'px';
 
-            counterElement.style.top = event.clientY - 120 + 'px';
-            counterElement.style.left = event.clientX - 50 + 'px';
+            // Удалено перемещение текста "Кликов: "
         }
     </script>
 
