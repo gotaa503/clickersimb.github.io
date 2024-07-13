@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,8 +80,8 @@
     <button onclick="applySettings()">Применить</button>
 </div>
 
-<div class="container" onclick="placeButton(event)">
-    <div class="autoclicker">Установить кнопку</div>
+<div class="container" onclick="placeButton()">
+    <div class="autoclicker" onclick="setInstallButton()">Установить кнопку</div>
     <div class="clicker" style="display: none;"></div>
     <div class="clicker" style="display: none;"></div>
 </div>
@@ -127,13 +127,16 @@
         settingsModal.style.display = 'none';
     }
 
-    function placeButton(event) {
+    function placeButton() {
         var posX = event.clientX - 50 + 'px';
         var posY = event.clientY - 50 + 'px';
         
         autoclickerButton.style.left = posX;
-        
         autoclickerButton.style.top = posY;
+    }
+
+    function setInstallButton() {
+        settingsModal.style.display = 'block';
     }
 </script>
 
