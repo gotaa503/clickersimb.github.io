@@ -82,6 +82,8 @@
 
 <div class="container" onclick="placeButton(event)">
     <div class="autoclicker">Установить кнопку</div>
+    <div class="clicker" style="display: none;"></div>
+    <div class="clicker" style="display: none;"></div>
 </div>
 
 <script>
@@ -112,17 +114,16 @@
             return;
         }
 
-        var newButton = document.createElement('div');
-        newButton.className = selectedButton;
-        newButton.style.width = '100px';
-        newButton.style.height = '100px';
-        newButton.style.backgroundImage = 'url(' + imageValue + ')';
-        newButton.style.backgroundSize = 'cover';
-        newButton.style.position = 'absolute';
-        newButton.textContent = textValue;
-        
-        document.body.appendChild(newButton);
-        
+        var hiddenButtons = document.querySelectorAll('.clicker');
+        for (var i = 0; i < hiddenButtons.length; i++) {
+            if (hiddenButtons[i].style.display === 'none') {
+                hiddenButtons[i].style.backgroundImage = 'url(' + imageValue + ')';
+                hiddenButtons[i].textContent = textValue;
+                hiddenButtons[i].style.display = 'block';
+                break;
+            }
+        }
+
         settingsModal.style.display = 'none';
     }
 
@@ -131,6 +132,7 @@
         var posY = event.clientY - 50 + 'px';
         
         autoclickerButton.style.left = posX;
+        
         autoclickerButton.style.top = posY;
     }
 </script>
