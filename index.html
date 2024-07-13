@@ -89,12 +89,8 @@
             cursor: pointer;
         }
 
-        #upgrade-status {
-            position: absolute;
-            top: 120px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
+        .upgrade-button.maxed {
+            background: green;
         }
 
     </style>
@@ -115,8 +111,7 @@
 
     <div id="upgrades-menu">
         <div class="upgrade-button" onclick="buyUpgrade()">Улучшить клик +3 (100 кликов)</div>
-        <div class="upgrade-button" onclick="buySpeedUpgrade()">Прибавить скорость 1 сек > 0.9 сек (Для Автокликера) (350 кликов)</div>
-        <div id="upgrade-status">Улучшено кликов: 0</div>
+        <div class="upgrade-button" id="speed-upgrade-button" onclick="buySpeedUpgrade()">Прибавить скорость 1 сек > 0.9 сек (Для Автокликера) (350 кликов)</div>
     </div>
 
     <script>
@@ -126,15 +121,14 @@
         var autoClickerStatusElement = document.getElementById('autoclicker-status');
         var autoClickerButton = document.getElementById('autoclicker-button');
         var upgradesMenu = document.getElementById('upgrades-menu');
-        var upgradeStatusElement = document.getElementById('upgrade-status');
+        var speedUpgradeButton = document.getElementById('speed-upgrade-button');
         var autoClickerInterval;
         var autoClickerEnabled = localStorage.getItem('autoClickerEnabled') === 'true';
         var clickValue = localStorage.getItem('clickValue') ? parseInt(localStorage.getItem('clickValue')) : 1;
-        var upgradeCount = localStorage.getItem('upgradeCount') ? parseInt(localStorage.getItem('upgradeCount')) : 0;
         var autoClickerSpeed = localStorage.getItem('autoClickerSpeed') ? parseFloat(localStorage.getItem('autoClickerSpeed')) : 1.0;
 
         counterElement.textContent = 'Кликов: ' + counterValue;
-        upgradeStatusElement.textContent = 'Улучшено кликов: ' + upgradeCount;
+        updateSpeedUpgradeButton();
 
         if (autoClickerEnabled) {
             startAutoClicker();
@@ -184,12 +178,9 @@
             if (counterValue >= 100) {
                 counterValue -= 100;
                 clickValue += 3;
-                upgradeCount++;
                 counterElement.textContent = 'Кликов: ' + counterValue;
-                upgradeStatusElement.textContent = 'Улучшено кликов: ' + upgradeCount;
                 localStorage.setItem('counterValue', counterValue);
                 localStorage.setItem('clickValue', clickValue);
-                localStorage.setItem('upgradeCount', upgradeCount);
             } else {
                 alert('Недостаточно кликов для покупки улучшения!');
             }
@@ -202,12 +193,23 @@
                 counterElement.textContent = 'Кликов: ' + counterValue;
                 localStorage.setItem('counterValue', counterValue);
                 localStorage.setItem('autoClickerSpeed', autoClickerSpeed);
+                updateSpeedUpgradeButton();
                 if (autoClickerEnabled) {
                     stopAutoClicker();
                     startAutoClicker();
                 }
             } else {
                 alert('Недостаточно кликов для покупки улучшения или достигнута максимальная скорость!');
+            }
+        }
+
+        function updateSpeedUpgradeButton() {
+            if (autoClickerSpeed > 0.1) {
+                speedUpgradeButton.textContent = 'Прибавить скорость ' + (autoClickerSpeed.toFixed(1)) + ' сек > ' + (Math.max(0.1, autoClickerSpeed - 0.1).toFixed(1)) + ' сек (Для Автокликера) (350 кликов)';
+                speedUpgradeButton.classList.remove('maxed');
+            } else {
+                speedUpgradeButton.textContent = 'МАКСИМАЛЬНО УЛУЧШЕНО';
+                speedUpgradeButton.classList.add('maxed');
             }
         }
 
