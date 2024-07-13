@@ -28,7 +28,6 @@
         }
 
         .autoclicker {
-            display: none;
             width: 100px;
             height: 50px;
             background: #FF5733;
@@ -38,46 +37,77 @@
             cursor: pointer;
         }
 
-        .counter {
-            text-align: center;
-            padding: 10px;
+        .settings {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px;
+            background: #2980b9;
             color: white;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            z-index: 999;
         }
 
     </style>
 </head>
 <body>
 
-<div class="counter">Количество кликов: <span id="counterValue">0</span></div>
+<div class="modal" id="settingsModal">
+    <h2>Настройки кнопки</h2>
+    <label for="buttonImage">Изображение кнопки:</label>
+    <input type="text" id="buttonImage" placeholder="URL изображения">
+    <label for="buttonText">Текст на кнопке:</label>
+    <input type="text" id="buttonText" placeholder="Текст кнопки">
+    <button onclick="applySettings()">Применить</button>
+</div>
 
 <div class="container">
     <div class="clicker" onclick="incrementCounter()"></div>
 </div>
 
 <button class="autoclicker" onclick="autoClick()">Автокликер</button>
+<button class="settings" onclick="openSettings()">Настройки Управления</button>
 
 <script>
-    var counterValue = document.getElementById('counterValue');
+    var counterValue = 0;
+    var counterElement = document.querySelector('.clicker');
     var autoclickerButton = document.querySelector('.autoclicker');
-    var currentValue = localStorage.getItem('clickCount') || 0;
-
-    counterValue.textContent = currentValue;
-
+    var clickerButton = document.querySelector('.clicker');
+    var settingsModal = document.getElementById('settingsModal');
+    var buttonImageInput = document.getElementById('buttonImage');
+    var buttonText = document.getElementById('buttonText');
+    
     function incrementCounter() {
-        currentValue++;
-        if (currentValue >= 1000) {
-            autoclickerButton.style.display = 'block';
-        }
-        counterValue.textContent = currentValue;
-        localStorage.setItem('clickCount', currentValue);
+        counterValue++;
+        counterElement.innerText = counterValue;
     }
-
-    var intervalId;
-
+    
     function autoClick() {
-        intervalId = setInterval(function() {
+        setInterval(function() {
             incrementCounter();
         }, 1000);
+    }
+    
+    function openSettings() {
+        settingsModal.style.display = 'block';
+    }
+    
+    function applySettings() {
+        var imageValue = buttonImageInput.value;
+        clickerButton.style.backgroundImage = 'url(' + imageValue + ')';
+        var textValue = buttonText.value;
+        autoclickerButton.textContent = textValue;
+        settingsModal.style.display = 'none';
     }
 </script>
 
