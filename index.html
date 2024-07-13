@@ -64,24 +64,19 @@
             color: white;
         }
 
+        #alert {
+            color: red;
+            display: none;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
     </style>
 </head>
 
 <body>
-
-    <div class="modal" id="settingsModal">
-        <h2>Настройки кнопки</h2>
-        <label for="buttonSelect">Выберите кнопку:</label>
-        <select id="buttonSelect">
-            <option value="clicker">Кликер</option>
-            <option value="autoclicker">Автокликер</option>
-        </select>
-        <label for="buttonImage">Изображение кнопки:</label>
-        <input type="text" id="buttonImage" placeholder="URL изображения">
-        <label for="buttonText">Текст на кнопке:</label>
-        <input type="text" id="buttonText" placeholder="Текст кнопки">
-        <button onclick="applySettings()">Применить</button>
-    </div>
 
     <div class="container">
         <div class="clicker" onclick="incrementCounter()" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg')">Клик</div>
@@ -90,10 +85,12 @@
     </div>
 
     <div class="clicker" id="counter" style="background-image: none; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: white;">Кликов: 0</div>
+    <div id="alert">У вас нет 1000 кликов чтобы включить Автокликер!</div>
 
     <script>
         var counterValue = localStorage.getItem('counterValue') ? parseInt(localStorage.getItem('counterValue')) : 0;
         var counterElement = document.getElementById('counter');
+        var alertElement = document.getElementById('alert');
 
         counterElement.textContent = 'Кликов: ' + counterValue;
 
@@ -103,32 +100,15 @@
             localStorage.setItem('counterValue', counterValue);
         }
 
-        function openSettings() {
-            settingsModal.style.display = 'block';
-        }
-
-        function applySettings() {
-            var selectedButton = buttonSelect.value;
-            var imageValue = buttonImageInput.value;
-            var textValue = buttonText.value;
-
-            if (imageValue.trim() === '') {
-                alert('Введите URL изображения!');
-                return;
+        function setInstallButton() {
+            if (counterValue < 1000) {
+                alertElement.style.display = 'block';
+                setTimeout(function() {
+                    alertElement.style.display = 'none';
+                }, 3000);
+            } else {
+                // Логика включения автокликера
             }
-
-            var hiddenButtons = document.querySelectorAll('.clicker');
-            for (var i = 0; i < hiddenButtons.length; i++) {
-                if (hiddenButtons[i].style.display === 'none') {
-                    
-                    hiddenButtons[i].style.backgroundImage = 'url(' + imageValue + ')';
-                    hiddenButtons[i].textContent = textValue;
-                    hiddenButtons[i].style.display = 'block';
-                    break;
-                }
-            }
-
-            settingsModal.style.display = 'none';
         }
 
         function placeButton() {
