@@ -10,6 +10,7 @@
             padding: 0;
             background-image: url('https://i.postimg.cc/kg1R3rm6/3-20240712215857.png');
             background-size: cover;
+            color: orange;
         }
 
         .container {
@@ -25,6 +26,7 @@
             background: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg') no-repeat center;
             background-size: cover;
             cursor: pointer;
+            position: absolute;
         }
 
         .autoclicker {
@@ -35,6 +37,7 @@
             text-align: center;
             line-height: 50px;
             cursor: pointer;
+            position: absolute;
         }
 
         .settings {
@@ -64,49 +67,68 @@
 
 <div class="modal" id="settingsModal">
     <h2>Настройки кнопки</h2>
+    <label for="buttonSelect">Выберите кнопку:</label>
+    <select id="buttonSelect">
+        <option value="clicker">Кликер</option>
+        <option value="autoclicker">Автокликер</option>
+    </select>
     <label for="buttonImage">Изображение кнопки:</label>
     <input type="text" id="buttonImage" placeholder="URL изображения">
     <label for="buttonText">Текст на кнопке:</label>
     <input type="text" id="buttonText" placeholder="Текст кнопки">
+    <label for="buttonPosition">Переместить кнопку по координатам:</label>
+    <input type="number" id="buttonX" placeholder="X (px)">
+    <input type="number" id="buttonY" placeholder="Y (px)">
     <button onclick="applySettings()">Применить</button>
 </div>
 
 <div class="container">
-    <div class="clicker" onclick="incrementCounter()"></div>
+    <div class="clicker" onclick="incrementCounter()">Кликов: 0</div>
+    <div class="autoclicker" onclick="autoClick()">Автокликер</div>
 </div>
 
-<button class="autoclicker" onclick="autoClick()">Автокликер</button>
 <button class="settings" onclick="openSettings()">Настройки Управления</button>
 
 <script>
     var counterValue = 0;
     var counterElement = document.querySelector('.clicker');
     var autoclickerButton = document.querySelector('.autoclicker');
-    var clickerButton = document.querySelector('.clicker');
     var settingsModal = document.getElementById('settingsModal');
+    var buttonSelect = document.getElementById('buttonSelect');
     var buttonImageInput = document.getElementById('buttonImage');
     var buttonText = document.getElementById('buttonText');
-    
+    var buttonX = document.getElementById('buttonX');
+    var buttonY = document.getElementById('buttonY');
+
     function incrementCounter() {
         counterValue++;
-        counterElement.innerText = counterValue;
+        counterElement.textContent = 'Кликов: ' + counterValue;
     }
-    
+
     function autoClick() {
         setInterval(function() {
             incrementCounter();
         }, 1000);
     }
-    
+
     function openSettings() {
         settingsModal.style.display = 'block';
     }
-    
+
     function applySettings() {
+        var selectedButton = buttonSelect.value;
+        var buttonElement = document.querySelector('.' + selectedButton);
         var imageValue = buttonImageInput.value;
-        clickerButton.style.backgroundImage = 'url(' + imageValue + ')';
         var textValue = buttonText.value;
-        autoclickerButton.textContent = textValue;
+        var posX = buttonX.value + "px";
+        var posY = buttonY.value + "px";
+
+        buttonElement.style.backgroundImage = 'url(' + imageValue + ')';
+        buttonElement.textContent = textValue;
+        
+        buttonElement.style.left = posX;
+        buttonElement.style.top = posY;
+
         settingsModal.style.display = 'none';
     }
 </script>
