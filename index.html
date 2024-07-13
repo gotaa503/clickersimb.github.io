@@ -14,10 +14,11 @@
         }
 
         .container {
+            position: relative;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
         }
 
         .clicker {
@@ -76,18 +77,12 @@
     <input type="text" id="buttonImage" placeholder="URL изображения">
     <label for="buttonText">Текст на кнопке:</label>
     <input type="text" id="buttonText" placeholder="Текст кнопки">
-    <label for="buttonPosition">Переместить кнопку по координатам:</label>
-    <input type="number" id="buttonX" placeholder="X (px)">
-    <input type="number" id="buttonY" placeholder="Y (px)">
     <button onclick="applySettings()">Применить</button>
 </div>
 
-<div class="container">
-    <div class="clicker" onclick="incrementCounter()">Кликов: 0</div>
-    <div class="autoclicker" onclick="autoClick()">Автокликер</div>
+<div class="container" onclick="placeButton(event)">
+    <div class="autoclicker">Установить кнопку</div>
 </div>
-
-<button class="settings" onclick="openSettings()">Настройки Управления</button>
 
 <script>
     var counterValue = 0;
@@ -97,18 +92,10 @@
     var buttonSelect = document.getElementById('buttonSelect');
     var buttonImageInput = document.getElementById('buttonImage');
     var buttonText = document.getElementById('buttonText');
-    var buttonX = document.getElementById('buttonX');
-    var buttonY = document.getElementById('buttonY');
 
     function incrementCounter() {
         counterValue++;
         counterElement.textContent = 'Кликов: ' + counterValue;
-    }
-
-    function autoClick() {
-        setInterval(function() {
-            incrementCounter();
-        }, 1000);
     }
 
     function openSettings() {
@@ -117,19 +104,34 @@
 
     function applySettings() {
         var selectedButton = buttonSelect.value;
-        var buttonElement = document.querySelector('.' + selectedButton);
         var imageValue = buttonImageInput.value;
         var textValue = buttonText.value;
-        var posX = buttonX.value + "px";
-        var posY = buttonY.value + "px";
 
-        buttonElement.style.backgroundImage = 'url(' + imageValue + ')';
-        buttonElement.textContent = textValue;
+        if (imageValue.trim() === '') {
+            alert('Введите URL изображения!');
+            return;
+        }
+
+        var newButton = document.createElement('div');
+        newButton.className = selectedButton;
+        newButton.style.width = '100px';
+        newButton.style.height = '100px';
+        newButton.style.backgroundImage = 'url(' + imageValue + ')';
+        newButton.style.backgroundSize = 'cover';
+        newButton.style.position = 'absolute';
+        newButton.textContent = textValue;
         
-        buttonElement.style.left = posX;
-        buttonElement.style.top = posY;
-
+        document.body.appendChild(newButton);
+        
         settingsModal.style.display = 'none';
+    }
+
+    function placeButton(event) {
+        var posX = event.clientX - 50 + 'px';
+        var posY = event.clientY - 50 + 'px';
+        
+        autoclickerButton.style.left = posX;
+        autoclickerButton.style.top = posY;
     }
 </script>
 
