@@ -42,6 +42,7 @@
             line-height: 50px;
             cursor: pointer;
             position: relative;
+            margin-top: 10px;
         }
 
         #counter {
@@ -56,10 +57,8 @@
         #alert {
             color: red;
             display: none;
-            position: absolute;
-            top: 70px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            top: 10px;
         }
 
         #autoclicker-status {
@@ -78,11 +77,11 @@
     <div class="container">
         <div class="clicker" onclick="incrementCounter()" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg')">Клик</div>
         <div class="autoclicker" id="autoclicker-button" onclick="toggleAutoClicker()">Автокликер</div>
+        <div id="alert">У вас нет 1000 кликов чтобы включить Автокликер!</div>
         <div class="clicker" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg'); display: none;"></div>
     </div>
 
     <div class="clicker" id="counter" style="background-image: none; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: white;">Кликов: 0</div>
-    <div id="alert">У вас нет 1000 кликов чтобы включить Автокликер!</div>
     <div id="autoclicker-status">Автокликер: Отключен</div>
 
     <script>
