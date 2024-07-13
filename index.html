@@ -92,12 +92,15 @@
     <div class="clicker" id="counter" style="background-image: none; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: white;">Кликов: 0</div>
 
     <script>
-        var counterValue = 0;
+        var counterValue = localStorage.getItem('counterValue') ? parseInt(localStorage.getItem('counterValue')) : 0;
         var counterElement = document.getElementById('counter');
+
+        counterElement.textContent = 'Кликов: ' + counterValue;
 
         function incrementCounter() {
             counterValue++;
             counterElement.textContent = 'Кликов: ' + counterValue;
+            localStorage.setItem('counterValue', counterValue);
         }
 
         function openSettings() {
