@@ -33,7 +33,7 @@
             margin-top: 20px;
         }
 
-        .autoclicker {
+        .autoclicker, .upgrades {
             width: 100px;
             height: 50px;
             background: #FF5733;
@@ -69,6 +69,34 @@
             color: white;
         }
 
+        #upgrades-menu {
+            display: none;
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .upgrade-button {
+            background: #FF5733;
+            color: white;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #upgrade-status {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+        }
+
     </style>
 </head>
 
@@ -77,12 +105,18 @@
     <div class="container">
         <div class="clicker" onclick="incrementCounter()" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg')">Клик</div>
         <div class="autoclicker" id="autoclicker-button" onclick="toggleAutoClicker()">Автокликер</div>
+        <div class="upgrades" onclick="toggleUpgradesMenu()">Улучшения</div>
         <div id="alert">У вас нет 1000 кликов чтобы включить Автокликер!</div>
         <div class="clicker" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg'); display: none;"></div>
     </div>
 
     <div class="clicker" id="counter" style="background-image: none; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: white;">Кликов: 0</div>
     <div id="autoclicker-status">Автокликер: Отключен</div>
+    <div id="upgrade-status">Улучшений: 0</div>
+
+    <div id="upgrades-menu">
+        <div class="upgrade-button" onclick="buyUpgrade()">Улучшить клик +3 (100 кликов)</div>
+    </div>
 
     <script>
         var counterValue = localStorage.getItem('counterValue') ? parseInt(localStorage.getItem('counterValue')) : 0;
@@ -90,17 +124,22 @@
         var alertElement = document.getElementById('alert');
         var autoClickerStatusElement = document.getElementById('autoclicker-status');
         var autoClickerButton = document.getElementById('autoclicker-button');
+        var upgradesMenu = document.getElementById('upgrades-menu');
+        var upgradeStatusElement = document.getElementById('upgrade-status');
         var autoClickerInterval;
         var autoClickerEnabled = localStorage.getItem('autoClickerEnabled') === 'true';
+        var clickValue = localStorage.getItem('clickValue') ? parseInt(localStorage.getItem('clickValue')) : 1;
+        var upgradeCount = localStorage.getItem('upgradeCount') ? parseInt(localStorage.getItem('upgradeCount')) : 0;
 
         counterElement.textContent = 'Кликов: ' + counterValue;
+        upgradeStatusElement.textContent = 'Улучшений: ' + upgradeCount;
 
         if (autoClickerEnabled) {
             startAutoClicker();
         }
 
         function incrementCounter() {
-            counterValue++;
+            counterValue += clickValue;
             counterElement.textContent = 'Кликов: ' + counterValue;
             localStorage.setItem('counterValue', counterValue);
         }
@@ -135,6 +174,25 @@
             localStorage.setItem('autoClickerEnabled', 'false');
         }
 
+        function toggleUpgradesMenu() {
+            upgradesMenu.style.display = upgradesMenu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function buyUpgrade() {
+            if (counterValue >= 100) {
+                counterValue -= 100;
+                clickValue += 3;
+                upgradeCount++;
+                counterElement.textContent = 'Кликов: ' + counterValue;
+                upgradeStatusElement.textContent = 'Улучшений: ' + upgradeCount;
+                localStorage.setItem('counterValue', counterValue);
+                localStorage.setItem('clickValue', clickValue);
+                localStorage.setItem('upgradeCount', upgradeCount);
+            } else {
+                alert('Недостаточно кликов для покупки улучшения!');
+            }
+        }
+
         window.addEventListener('beforeunload', function() {
             if (autoClickerInterval) {
                 localStorage.setItem('autoClickerEnabled', 'true');
@@ -143,12 +201,6 @@
             }
         });
 
-        function placeButton() {
-            var posX = event.clientX - 50 + 'px';
-            var posY = event.clientY - 50 + 'px';
-
-            // Удалено перемещение текста "Кликов: "
-        }
     </script>
 
 </body>
