@@ -27,6 +27,17 @@
             cursor: pointer;
         }
 
+        .autoclicker {
+            display: none;
+            width: 100px;
+            height: 50px;
+            background: #FF5733;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+        }
+
         .counter {
             text-align: center;
             padding: 10px;
@@ -43,15 +54,30 @@
     <div class="clicker" onclick="incrementCounter()"></div>
 </div>
 
+<button class="autoclicker" onclick="autoClick()">Автокликер</button>
+
 <script>
     var counterValue = document.getElementById('counterValue');
+    var autoclickerButton = document.querySelector('.autoclicker');
     var currentValue = localStorage.getItem('clickCount') || 0;
+
     counterValue.textContent = currentValue;
 
     function incrementCounter() {
         currentValue++;
+        if (currentValue >= 1000) {
+            autoclickerButton.style.display = 'block';
+        }
         counterValue.textContent = currentValue;
         localStorage.setItem('clickCount', currentValue);
+    }
+
+    var intervalId;
+
+    function autoClick() {
+        intervalId = setInterval(function() {
+            incrementCounter();
+        }, 1000);
     }
 </script>
 
