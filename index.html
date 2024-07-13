@@ -63,6 +63,15 @@
             z-index: 999;
         }
 
+        #counter {
+            background: transparent;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+        }
+
     </style>
 </head>
 
@@ -89,7 +98,7 @@
         <div class="settings" onclick="openSettings()">Настройки управления</div>
     </div>
 
-    <div class="clicker" id="counter" style="background-image: none; position: absolute; top: 20px; left: 50%; transform: translateX(-50%);">Кликов: 0</div>
+    <div class="clicker" id="counter" style="background-image: none; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: white;">Кликов: 0</div>
 
     <script>
         var counterValue = 0;
@@ -117,12 +126,12 @@
             var hiddenButtons = document.querySelectorAll('.clicker');
             for (var i = 0; i < hiddenButtons.length; i++) {
                 if (hiddenButtons[i].style.display === 'none') {
+                    
                     hiddenButtons[i].style.backgroundImage = 'url(' + imageValue + ')';
                     hiddenButtons[i].textContent = textValue;
                     hiddenButtons[i].style.display = 'block';
                     break;
                 }
-                
             }
 
             settingsModal.style.display = 'none';
