@@ -57,7 +57,7 @@
             color: red;
             display: none;
             position: absolute;
-            top: 10px;
+            top: 70px;
             left: 50%;
             transform: translateX(-50%);
         }
@@ -135,6 +135,14 @@
             autoClickerButton.style.background = 'red';
             localStorage.setItem('autoClickerEnabled', 'false');
         }
+
+        window.addEventListener('beforeunload', function() {
+            if (autoClickerInterval) {
+                localStorage.setItem('autoClickerEnabled', 'true');
+            } else {
+                localStorage.setItem('autoClickerEnabled', 'false');
+            }
+        });
 
         function placeButton() {
             var posX = event.clientX - 50 + 'px';
