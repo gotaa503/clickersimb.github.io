@@ -44,17 +44,6 @@
             position: relative;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            z-index: 999;
-        }
-
         #counter {
             background: transparent;
             position: absolute;
@@ -73,6 +62,14 @@
             transform: translateX(-50%);
         }
 
+        #autoclicker-status {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+        }
+
     </style>
 </head>
 
@@ -80,17 +77,20 @@
 
     <div class="container">
         <div class="clicker" onclick="incrementCounter()" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg')">Клик</div>
-        <div class="autoclicker" onclick="setInstallButton()">Автокликер</div>
+        <div class="autoclicker" onclick="toggleAutoClicker()">Автокликер</div>
         <div class="clicker" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg'); display: none;"></div>
     </div>
 
     <div class="clicker" id="counter" style="background-image: none; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: white;">Кликов: 0</div>
     <div id="alert">У вас нет 1000 кликов чтобы включить Автокликер!</div>
+    <div id="autoclicker-status">Автокликер: Отключен</div>
 
     <script>
         var counterValue = localStorage.getItem('counterValue') ? parseInt(localStorage.getItem('counterValue')) : 0;
         var counterElement = document.getElementById('counter');
         var alertElement = document.getElementById('alert');
+        var autoClickerStatusElement = document.getElementById('autoclicker-status');
+        var autoClickerInterval;
 
         counterElement.textContent = 'Кликов: ' + counterValue;
 
@@ -100,15 +100,30 @@
             localStorage.setItem('counterValue', counterValue);
         }
 
-        function setInstallButton() {
+        function toggleAutoClicker() {
             if (counterValue < 1000) {
                 alertElement.style.display = 'block';
                 setTimeout(function() {
                     alertElement.style.display = 'none';
                 }, 3000);
             } else {
-                // Логика включения автокликера
+                if (autoClickerInterval) {
+                    stopAutoClicker();
+                } else {
+                    startAutoClicker();
+                }
             }
+        }
+
+        function startAutoClicker() {
+            autoClickerInterval = setInterval(incrementCounter, 1000); // Кликает каждую секунду
+            autoClickerStatusElement.textContent = 'Автокликер: Включен';
+        }
+
+        function stopAutoClicker() {
+            clearInterval(autoClickerInterval);
+            autoClickerInterval = null;
+            autoClickerStatusElement.textContent = 'Автокликер: Отключен';
         }
 
         function placeButton() {
