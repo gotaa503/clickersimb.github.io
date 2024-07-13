@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             background-image: url('https://i.postimg.cc/kg1R3rm6/3-20240712215857.png');
             background-size: cover;
             color: orange;
+            text-align: center;
         }
 
         .container {
@@ -19,15 +21,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
 
         .clicker {
             width: 100px;
             height: 100px;
-            background: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg') no-repeat center;
             background-size: cover;
             cursor: pointer;
-            position: absolute;
+            position: relative;
+            margin-top: 20px;
         }
 
         .autoclicker {
@@ -38,13 +41,11 @@
             text-align: center;
             line-height: 50px;
             cursor: pointer;
-            position: absolute;
+            position: relative;
         }
 
         .settings {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            margin-top: 20px;
             padding: 5px;
             background: #2980b9;
             color: white;
@@ -64,81 +65,78 @@
 
     </style>
 </head>
+
 <body>
 
-<div class="modal" id="settingsModal">
-    <h2>Настройки кнопки</h2>
-    <label for="buttonSelect">Выберите кнопку:</label>
-    <select id="buttonSelect">
-        <option value="clicker">Кликер</option>
-        <option value="autoclicker">Автокликер</option>
-    </select>
-    <label for="buttonImage">Изображение кнопки:</label>
-    <input type="text" id="buttonImage" placeholder="URL изображения">
-    <label for="buttonText">Текст на кнопке:</label>
-    <input type="text" id="buttonText" placeholder="Текст кнопки">
-    <button onclick="applySettings()">Применить</button>
-</div>
+    <div class="modal" id="settingsModal">
+        <h2>Настройки кнопки</h2>
+        <label for="buttonSelect">Выберите кнопку:</label>
+        <select id="buttonSelect">
+            <option value="clicker">Кликер</option>
+            <option value="autoclicker">Автокликер</option>
+        </select>
+        <label for="buttonImage">Изображение кнопки:</label>
+        <input type="text" id="buttonImage" placeholder="URL изображения">
+        <label for="buttonText">Текст на кнопке:</label>
+        <input type="text" id="buttonText" placeholder="Текст кнопки">
+        <button onclick="applySettings()">Применить</button>
+    </div>
 
-<div class="container" onclick="placeButton()">
-    <div class="autoclicker" onclick="setInstallButton()">Установить кнопку</div>
-    <div class="clicker" style="display: none;"></div>
-    <div class="clicker" style="display: none;"></div>
-</div>
+    <div class="container" onclick="placeButton()">
+        <div class="clicker" onclick="incrementCounter()" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg')">Клик</div>
+        <div class="autoclicker" onclick="setInstallButton()">Автокликер</div>
+        <div class="clicker" style="background-image: url('https://i.postimg.cc/FKvSVbNG/e3d39e036f6e239ec714d45519f8e105.jpg'); display: none;"></div>
+        <div class="settings" onclick="openSettings()">Настройки управления</div>
+    </div>
 
-<script>
-    var counterValue = 0;
-    var counterElement = document.querySelector('.clicker');
-    var autoclickerButton = document.querySelector('.autoclicker');
-    var settingsModal = document.getElementById('settingsModal');
-    var buttonSelect = document.getElementById('buttonSelect');
-    var buttonImageInput = document.getElementById('buttonImage');
-    var buttonText = document.getElementById('buttonText');
+    <div class="clicker" id="counter" style="background-image: none; position: absolute; top: 20px; left: 50%; transform: translateX(-50%);">Кликов: 0</div>
 
-    function incrementCounter() {
-        counterValue++;
-        counterElement.textContent = 'Кликов: ' + counterValue;
-    }
+    <script>
+        var counterValue = 0;
+        var counterElement = document.getElementById('counter');
 
-    function openSettings() {
-        settingsModal.style.display = 'block';
-    }
-
-    function applySettings() {
-        var selectedButton = buttonSelect.value;
-        var imageValue = buttonImageInput.value;
-        var textValue = buttonText.value;
-
-        if (imageValue.trim() === '') {
-            alert('Введите URL изображения!');
-            return;
+        function incrementCounter() {
+            counterValue++;
+            counterElement.textContent = 'Кликов: ' + counterValue;
         }
 
-        var hiddenButtons = document.querySelectorAll('.clicker');
-        for (var i = 0; i < hiddenButtons.length; i++) {
-            if (hiddenButtons[i].style.display === 'none') {
-                hiddenButtons[i].style.backgroundImage = 'url(' + imageValue + ')';
-                hiddenButtons[i].textContent = textValue;
-                hiddenButtons[i].style.display = 'block';
-                break;
+        function openSettings() {
+            settingsModal.style.display = 'block';
+        }
+
+        function applySettings() {
+            var selectedButton = buttonSelect.value;
+            var imageValue = buttonImageInput.value;
+            var textValue = buttonText.value;
+
+            if (imageValue.trim() === '') {
+                alert('Введите URL изображения!');
+                return;
             }
+
+            var hiddenButtons = document.querySelectorAll('.clicker');
+            for (var i = 0; i < hiddenButtons.length; i++) {
+                if (hiddenButtons[i].style.display === 'none') {
+                    hiddenButtons[i].style.backgroundImage = 'url(' + imageValue + ')';
+                    hiddenButtons[i].textContent = textValue;
+                    hiddenButtons[i].style.display = 'block';
+                    break;
+                }
+                
+            }
+
+            settingsModal.style.display = 'none';
         }
 
-        settingsModal.style.display = 'none';
-    }
+        function placeButton() {
+            var posX = event.clientX - 50 + 'px';
+            var posY = event.clientY - 50 + 'px';
 
-    function placeButton() {
-        var posX = event.clientX - 50 + 'px';
-        var posY = event.clientY - 50 + 'px';
-        
-        autoclickerButton.style.left = posX;
-        autoclickerButton.style.top = posY;
-    }
-
-    function setInstallButton() {
-        settingsModal.style.display = 'block';
-    }
-</script>
+            counterElement.style.top = event.clientY - 120 + 'px';
+            counterElement.style.left = event.clientX - 50 + 'px';
+        }
+    </script>
 
 </body>
+
 </html>
